@@ -4,7 +4,7 @@
 
 prog=${0##*/}
 makefile=${0%.sh}.mk
-version=0.1
+version=0.2
 grep_options=( -i -a )
 
 usage () {
