@@ -3,6 +3,7 @@
 # Wrapper (command line interface) for the lbdb.mk file.
 
 prog=${0##*/}
+makefile=${0%.sh}.mk
 version=0.1
 grep_options=( -i -a )
 
@@ -42,5 +43,5 @@ if [ $# -lt 1 ]; then
   exit 2
 fi
 
-make --file ${0%.sh}.mk --quiet
+make --file "$makefile" --quiet
 grep_chain "$@" < ~/.cache/lbdb/lbdb
