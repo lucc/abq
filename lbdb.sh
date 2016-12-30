@@ -8,14 +8,14 @@ version=0.1
 grep_options=( -i -a )
 
 usage () {
-  echo "$prog [-i] search terms"
-  echo "$prog -h|--help"
-  echo "$prog --version"
+  echo "$prog [-x] search terms"
+  echo "$prog -h"
+  echo "$prog -v"
 }
 help () {
   echo "Search the little brothers data base for a matching email address."
-  echo "This script accepts all options that your grep(1) accepts.  You"
-  echo "should run 'grep --help' to see those."
+  echo "Options: -x for debugging, -h for help, -v for version."
+  echo "Search terms are used by grep(1) in case insensitive mode."
 }
 grep_chain () {
   if [[ $# -eq 1 ]]; then
@@ -30,7 +30,7 @@ grep_chain () {
 while getopts hvx FLAG; do
   case $FLAG in
     h) usage; echo; help; exit;;
-    v) echo "$prog $version" echo "Using $(grep --version|head -n 1)"; exit;;
+    v) echo "$prog $version"; echo "Using $(grep --version|head -n 1)"; exit;;
     x) set -x;;
     *) usage >&2; exit 2;;
   esac
