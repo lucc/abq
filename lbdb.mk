@@ -3,10 +3,6 @@
 # A rewimplementation of the idea of lbdb in as a make file.
 
 CACHE = ~/.cache/lbdb
-SHARE = \
-	/usr/share       \
-	/usr/local/share \
-	~/.local/share
 
 # This names all the methods used and also their priority.  The first an email
 # address is found in several sources only the first one will be used.
@@ -48,7 +44,7 @@ $(CACHE)/gpg.list: $(GNUPGHOME)/pubring.kbx
 # The *.list files depend on the cache directory.
 $(foreach target,$(LISTS),$(eval $(CACHE)/$(target).list: $(CACHE)/.dir))
 # Some entries need to be normalized.
-$(CACHE)/%.normalized: $(CACHE)/%.list
+%.normalized: %.list
 	cat $< > $@
 # Sort each source individually, just in case we might need it.
 %.sorted: %.normalized
@@ -64,3 +60,5 @@ clear-cache:
 cache-statistics: $(CACHE)/lbdb
 	wc $(patsubst %,$(CACHE)/%.sorted,$(LISTS))
 	wc $(CACHE)/lbdb
+
+.SECONDARY:
