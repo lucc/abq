@@ -48,10 +48,10 @@ $(CACHE)/gpg.list: $(GNUPGHOME)/pubring.kbx
 # The *.list files depend on the cache directory.
 $(foreach target,$(LISTS),$(eval $(CACHE)/$(target).list: $(CACHE)/.dir))
 # Some entries need to be normalized.
-$(CACHE)%.normalized: $(CACHE)/%.list
+$(CACHE)/%.normalized: $(CACHE)/%.list
 	cat $< > $@
 # Sort each source individually, just in case we might need it.
-$(CACHE)/%.sorted: $(CACHE)/%.normalized
+%.sorted: %.normalized
 	$(SORT) < $< > $@
 %/.dir:
 	mkdir -p $*
