@@ -35,7 +35,7 @@ while getopts chvx FLAG; do
     c) echo Clearing cache. >&2; make --file "$makefile" clear-cache --quiet; exit;;
     h) usage; echo; help; exit;;
     v) echo "$prog $version"; echo "Using $(grep --version|head -n 1)"; exit;;
-    x) set -x;;
+    x) debug=true; set -x;;
     *) usage >&2; exit 2;;
   esac
 done
@@ -47,5 +47,11 @@ if [ $# -lt 1 ]; then
   exit 2
 fi
 
-make --file "$makefile" --quiet
+if "$debug"; then
+  make_options=( --debug )
+else
+  make_options=( --quiet )
+fi
+
+make --file "$makefile" "${make_options[@]}"
 grep_chain "$@" < ~/.cache/lbdb/lbdb
