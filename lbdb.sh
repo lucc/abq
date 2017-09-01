@@ -2,6 +2,8 @@
 
 # Wrapper (command line interface) for the lbdb.mk file.
 
+set -eu
+
 prog=${0##*/}
 makefile=${0%.sh}.mk
 version=0.2
