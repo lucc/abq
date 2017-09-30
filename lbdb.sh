@@ -55,5 +55,9 @@ else
   make_options=( --quiet )
 fi
 
-make --file "$makefile" "${make_options[@]}"
+make \
+  --no-builtin-rules \
+  --no-builtin-variables \
+  --file "$makefile" \
+  "${make_options[@]}"
 grep_chain "$@" < ~/.cache/lbdb/lbdb
