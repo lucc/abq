@@ -21,10 +21,10 @@ SORT = sort --uniq --field-separator='	' --key=1,1
 $(CACHE)/lbdb: $(patsubst %,$(CACHE)/%.sorted,$(LISTS))
 	$(SORT) $^ > $@
 
-$(CACHE)/inmail.list: ~/.config/lbdb/m_inmail.list
+$(CACHE)/inmail.list: ~/.config/lbdb/m_inmail.list | $(CACHE)
 	cp -f $< $@
 
-$(CACHE)/khard.list: ~/.local/share/khard/main/????????????????????????????????????.vcf
+$(CACHE)/khard.list: ~/.local/share/khard/main/????????????????????????????????????.vcf | $(CACHE)
 	khard email --parsable --display first_name --remove-first-line \
 	| sed 's/\t[^\t]*$$/\t@/'                                       \
 	> $@
@@ -32,7 +32,7 @@ $(CACHE)/khard.list: ~/.local/share/khard/main/?????????????????????????????????
 ifndef GNUPGHOME
   GNUPGHOME = ~/.gnupg
 endif
-$(CACHE)/gpg.list: $(GNUPGHOME)/pubring.kbx
+$(CACHE)/gpg.list: $(GNUPGHOME)/pubring.kbx | $(CACHE)
 	gpg --list-keys --with-colons 2>/dev/null \
 	| sed -n -e '/^\(pub\|uid\):[^re]:\([^:]*:\)\{7,7\}[^<>:]* <[^<>@: ]*@[^<>@: ]*>[^<>@:]*:/ {' \
 		 -e '  s/^\([^:]*:\)\{9,9\}\([^<:]*\) <\([^>:]*\)>.*:.*$$/\3	\2	(GnuPG)/'     \
@@ -41,17 +41,14 @@ $(CACHE)/gpg.list: $(GNUPGHOME)/pubring.kbx
 		 -e '}'                                                                               \
 	> $@
 
-# The *.list files depend on the cache directory.
-$(foreach target,$(LISTS),$(eval $(CACHE)/$(target).list: $(CACHE)/.dir))
 # Some entries need to be normalized.
 %.normalized: %.list
 	cat $< > $@
 # Sort each source individually, just in case we might need it.
 %.sorted: %.normalized
 	$(SORT) < $< > $@
-%/.dir:
-	mkdir -p $*
-	touch $@
+$(CACHE):
+	mkdir -p $@
 $(DONTBUILD):;
 
 clear-cache:
