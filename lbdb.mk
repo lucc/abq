@@ -21,7 +21,7 @@ SORT = sort --uniq --field-separator='	' --key=1,1
 $(CACHE)/lbdb: $(patsubst %,$(CACHE)/%.sorted,$(LISTS))
 	$(SORT) $^ > $@
 
-$(CACHE)/inmail.list: ~/.config/lbdb/m_inmail.list | $(CACHE)
+$(CACHE)/inmail.list: ~/.lbdb/m_inmail.list | $(CACHE)
 	cp -f $< $@
 
 $(CACHE)/khard.list: ~/.local/share/khard/main/????????????????????????????????????.vcf | $(CACHE)
