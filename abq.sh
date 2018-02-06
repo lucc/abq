@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Wrapper (command line interface) for the lbdb.mk file.
+# Wrapper (command line interface) for the abq.mk file.
 
 set -eu
 
@@ -60,4 +60,4 @@ make \
   --no-builtin-variables \
   --file "$makefile" \
   "${make_options[@]}"
-grep_chain "$@" < ~/.cache/lbdb/lbdb
+grep_chain "$@" < ~/.cache/abq/abq

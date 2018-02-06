@@ -1,14 +1,14 @@
 PREFIX = $(HOME)/.local
 DESTDIR =
 
-lbdb.sh.configured: lbdb.sh
-	sed 's#^makefile=.*#makefile="$(PREFIX)/lib/lbdb.mk"#' $< > $@
+abq.sh.configured: abq.sh
+	sed 's#^makefile=.*#makefile="$(PREFIX)/lib/abq.mk"#' $< > $@
 
-install: lbdb.sh.configured lbdb.mk
-	install -D -m755 lbdb.sh.configured $(DESTDIR)$(PREFIX)/bin/lbdb.sh
-	install -D lbdb.mk $(DESTDIR)$(PREFIX)/lib/lbdb.mk
+install: abq.sh.configured abq.mk
+	install -D -m755 abq.sh.configured $(DESTDIR)$(PREFIX)/bin/abq.sh
+	install -D abq.mk $(DESTDIR)$(PREFIX)/lib/abq.mk
 
 clean:
-	$(RM) lbdb.sh.configured
+	$(RM) abq.sh.configured
 
 .PHONY: install clean

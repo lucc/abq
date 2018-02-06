@@ -1,8 +1,8 @@
 #!/usr/bin/make -f
 
-# A rewimplementation of the idea of lbdb in as a make file.
+# A rewimplementation of the idea of lbdb in a make file.
 
-CACHE = ~/.cache/lbdb
+CACHE = ~/.cache/abq
 
 # This names all the methods used and also their priority.  The first an email
 # address is found in several sources only the first one will be used.
@@ -18,7 +18,7 @@ DONTBUILD = \
 
 SORT = sort --uniq --field-separator='	' --key=1,1
 
-$(CACHE)/lbdb: $(patsubst %,$(CACHE)/%.sorted,$(LISTS))
+$(CACHE)/abq: $(patsubst %,$(CACHE)/%.sorted,$(LISTS))
 	$(SORT) $^ > $@
 
 $(CACHE)/inmail.list: ~/.lbdb/m_inmail.list | $(CACHE)
@@ -54,8 +54,8 @@ $(DONTBUILD):;
 clear-cache:
 	$(RM) -fr $(CACHE)
 
-cache-statistics: $(CACHE)/lbdb
+cache-statistics: $(CACHE)/abq
 	wc $(patsubst %,$(CACHE)/%.sorted,$(LISTS))
-	wc $(CACHE)/lbdb
+	wc $(CACHE)/abq
 
 .SECONDARY:
