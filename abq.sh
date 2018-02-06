@@ -6,7 +6,7 @@ set -eu
 
 prog=${0##*/}
 makefile=${0%.sh}.mk
-version=0.2
+version=0.3
 grep_options=( --ignore-case --text )
 debug=false
 
