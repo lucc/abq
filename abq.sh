@@ -22,13 +22,16 @@ help () {
   echo "With -c the cache is cleared."
   echo "Search terms are used by grep(1) in case insensitive mode."
 }
+
+# Grep for the logical AND of several search terms.  This is not possible with
+# plain grep (or plain regex) which only provide logiacl OR.
 grep_chain () {
   if [[ $# -eq 1 ]]; then
-    grep "${grep_options[@]}" "$1"
+    grep "${grep_options[@]}" --regexp="$1"
   else
     local pattern=$1
     shift
-    grep "${grep_options[@]}" "$pattern" | grep_chain "$@"
+    grep "${grep_options[@]}" --regexp="$pattern" | grep_chain "$@"
   fi
 }
 
