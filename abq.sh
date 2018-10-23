@@ -24,7 +24,7 @@ help () {
 }
 
 # Grep for the logical AND of several search terms.  This is not possible with
-# plain grep (or plain regex) which only provide logiacl OR.
+# plain grep (or plain regex) which only provide logical OR.
 grep_chain () {
   if [[ $# -eq 1 ]]; then
     grep "${grep_options[@]}" --regexp="$1"

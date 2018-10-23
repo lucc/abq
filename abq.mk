@@ -1,20 +1,20 @@
 #!/usr/bin/make -f
 
-# A rewimplementation of the idea of lbdb in a make file.
+# A reimplementation of the idea of lbdb in a make file.
 
 CACHE = ~/.cache/abq
 
-# This names all the methods used and also their priority.  The first an email
+# This names all the methods used and also their priority.  If an email
 # address is found in several sources only the first one will be used.
 LISTS = \
-	khard \
-	gpg \
+	khard  \
+	gpg    \
 	inmail \
 
 DONTBUILD = \
-	    $(GNUPGHOME)/pubring.kbx    \
+	    $(GNUPGHOME)/pubring.kbx        \
 	    ~/.local/share/khard/main/*.vcf \
-	    $(MAILS)
+	    $(MAILS)                        \
 
 SORT = sort --uniq --field-separator='	' --key=1,1
 
@@ -41,7 +41,7 @@ $(CACHE)/gpg.list: $(GNUPGHOME)/pubring.kbx | $(CACHE)
 		 -e '}'                                                                               \
 	> $@
 
-# Some entries need to be normalized.
+# Some entries need to be normalized.  TODO to be implemented!
 %.normalized: %.list
 	cat $< > $@
 # Sort each source individually, just in case we might need it.
