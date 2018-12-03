@@ -8,6 +8,7 @@ prog=${0##*/}
 makefile=${0%.sh}.mk
 version=0.3
 grep_options=( --ignore-case --text )
+make_options=( --quiet --file "$makefile" )
 debug=false
 
 usage () {
@@ -37,7 +38,7 @@ grep_chain () {
 
 while getopts chvx FLAG; do
   case $FLAG in
-    c) echo Clearing cache. >&2; make --file "$makefile" clear-cache --quiet; exit;;
+    c) echo Clearing cache. >&2; make "${make_options[@]}" clear-cache; exit;;
     h) usage; echo; help; exit;;
     v) echo "$prog $version"; echo "Using $(grep --version|head -n 1)"; exit;;
     x) debug=true; set -x;;
@@ -53,14 +54,11 @@ if [ $# -lt 1 ]; then
 fi
 
 if "$debug"; then
-  make_options=( --debug )
-else
-  make_options=( --quiet )
+  make_options=( "${make_options[@]/--quiet/--debug}" )
 fi
 
 make \
   --no-builtin-rules \
   --no-builtin-variables \
-  --file "$makefile" \
   "${make_options[@]}"
 grep_chain "$@" < ~/.cache/abq/abq
