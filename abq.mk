@@ -18,9 +18,10 @@ DONTBUILD = \
 	    $(MAILS)                        \
 
 SORT = sort --uniq --field-separator='	' --key=1,1
+UNIQUE = awk -F'	' '!cache[$$1] { cache[$$1] = $$2 "	" $$3 } END { for (key in cache) print key "	" cache[key] }'
 
 $(CACHE)/abq: $(patsubst %,$(CACHE)/%.sorted,$(LISTS))
-	$(SORT) $^ > $@
+	$(UNIQUE) $^ > $@
 
 $(CACHE)/inmail.list: ~/.lbdb/m_inmail.list | $(CACHE)
 	cp -f $< $@
