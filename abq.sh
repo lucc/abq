@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Wrapper (command line interface) for the abq.mk file.
 
