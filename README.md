@@ -8,6 +8,7 @@ implemented as a makefile.  Currently the following providers are supported:
 * [khard]
 * [gpg]
 * [lbdb's inmail plugin][inmail]
+* [notmuch address][notmuch address]
 
 [alot]: https://github.com/pazz/alot
 [gpg]: https://gnupg.org/
@@ -15,3 +16,4 @@ implemented as a makefile.  Currently the following providers are supported:
 [khard]: https://github.com/scheibler/khard
 [lbdb]: https://github.com/RolandRosenfeld/lbdb
 [mutt]: http://www.mutt.org/
+[notmuch address]: https://notmuchmail.org/manpages/notmuch-address-1/
