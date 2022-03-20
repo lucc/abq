@@ -44,18 +44,10 @@ $(CACHE)/gpg.list: $(GNUPGHOME)/pubring.kbx | $(CACHE)
 	> $@
 
 NOTMUCH_DB = \
-		position.baseA \
-		position.baseB \
-		position.DB    \
-		postlist.baseA \
-		postlist.baseB \
-		postlist.DB    \
-		record.baseA   \
-		record.baseB   \
-		record.DB      \
-		termlist.baseA \
-		termlist.baseB \
-		termlist.DB    \
+		iamglass       \
+		position.glass \
+		postlist.glass \
+		termlist.glass \
 
 JQ_COMMAND = jq --raw-output '.[] | .address + "\t" + .name + "\tnotmuch-address"'
 $(CACHE)/notmuch-address.list: $(patsubst %,~/mail/.notmuch/xapian/%,$(NOTMUCH_DB))
