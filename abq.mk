@@ -18,7 +18,7 @@ DONTBUILD = \
 	    $(MAILS)                        \
 
 SORT = sort --uniq --field-separator='	' --key=1,1
-UNIQUE = awk -F'	' '!cache[$$1] { cache[$$1] = $$2 "	" $$3 } END { for (key in cache) print key "	" cache[key] }'
+UNIQUE = awk -F'\t' '!cache[$$1] { cache[$$1] = $$2 FS $$3 } END { for (key in cache) print key FS cache[key] }'
 
 $(CACHE)/abq: $(patsubst %,$(CACHE)/%.sorted,$(LISTS))
 	$(UNIQUE) $^ > $@
