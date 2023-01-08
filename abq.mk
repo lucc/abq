@@ -69,7 +69,7 @@ clear-cache:
 	$(RM) -fr $(CACHE)
 
 cache-statistics: $(CACHE)/abq
-	wc $(patsubst %,$(CACHE)/%.sorted,$(LISTS))
-	wc $(CACHE)/abq
+	@wc $(patsubst %,$(CACHE)/%.sorted,$(LISTS))
+	@wc $(CACHE)/abq
 
 .SECONDARY:
