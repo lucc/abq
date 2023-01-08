@@ -9,7 +9,6 @@ CACHE = ~/.cache/abq
 LISTS = \
 	khard  \
 	gpg    \
-	inmail \
 	notmuch-address \
 
 DONTBUILD = \
