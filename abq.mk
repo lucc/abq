@@ -3,6 +3,7 @@
 # A reimplementation of the idea of lbdb in a make file.
 
 CACHE = ~/.cache/abq
+KHARD_DIR = ~/.local/share/khard/main
 
 # This names all the methods used and also their priority.  If an email
 # address is found in several sources only the first one will be used.
@@ -25,7 +26,7 @@ $(CACHE)/abq: $(patsubst %,$(CACHE)/%.sorted,$(LISTS))
 $(CACHE)/inmail.list: ~/.lbdb/m_inmail.list | $(CACHE)
 	cp -f $< $@
 
-$(CACHE)/khard.list: ~/.local/share/khard/main/????????????????????????????????????.vcf | $(CACHE)
+$(CACHE)/khard.list: $(KHARD_DIR)/*.vcf | $(CACHE)
 	khard email --parsable --display first_name --remove-first-line \
 	| sed 's/\t[^\t]*$$/\t@/'                                       \
 	> $@
