@@ -12,17 +12,24 @@ make_options=( --quiet --file "$makefile" )
 debug=false
 
 usage () {
-  echo "$prog [-x] search terms"
-  echo "$prog -c"
-  echo "$prog -s"
-  echo "$prog -h"
-  echo "$prog -v"
+  cat <<-EOF
+	Usage: $prog [-x] search terms
+	       $prog -c
+	       $prog -r
+	       $prog -s
+	       $prog -h
+	       $prog -v
+	EOF
 }
 help () {
-  echo "Search the little brothers data base for a matching email address."
-  echo "Options: -x for debugging, -h for help, -v for version."
-  echo "With -c the cache is cleared."
-  echo "Search terms are used by grep(1) in case insensitive mode."
+  cat <<-EOF
+	Search the little brothers data base for a matching email address.
+	Options: -x for debugging, -h for help, -v for version.
+	With -c the cache is cleared, with -r the cache is rebuild explicitly
+	(it is normally checked on each query). The -s option prints some
+	cache statistics.
+	Search terms are used by grep(1) in case insensitive mode.
+	EOF
 }
 
 # Grep for the logical AND of several search terms.  This is not possible with
@@ -37,10 +44,11 @@ grep_chain () {
   fi
 }
 
-while getopts chsvx FLAG; do
+while getopts chrsvx FLAG; do
   case $FLAG in
-    c) echo Clearing cache. >&2; make "${make_options[@]}" clear-cache; exit;;
+    c) echo Clearing cache... >&2; make "${make_options[@]}" clear-cache; exit;;
     h) usage; echo; help; exit;;
+    r) echo Rebuilding cache... >&2; make "${make_options[@]}" rebuild; exit;;
     s) echo Statistics:; make "${make_options[@]}" cache-statistics; exit;;
     v) echo "$prog $version"; echo "Using $(grep --version|head -n 1)"; exit;;
     x) debug=true; set -x;;
