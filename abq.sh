@@ -10,13 +10,14 @@ version=0.4
 grep_options=( --ignore-case --text )
 make_options=( --quiet --file "$makefile" )
 debug=false
+split=false
 
 usage () {
   cat <<-EOF
-	Usage: $prog [-x] search terms
-	       $prog -c
-	       $prog -r
-	       $prog -s
+	Usage: $prog [-xs] search terms
+	       $prog -C
+	       $prog -R
+	       $prog -S
 	       $prog -h
 	       $prog -v
 	EOF
@@ -25,8 +26,8 @@ help () {
   cat <<-EOF
 	Search the little brothers data base for a matching email address.
 	Options: -x for debugging, -h for help, -v for version.
-	With -c the cache is cleared, with -r the cache is rebuild explicitly
-	(it is normally checked on each query). The -s option prints some
+	With -C the cache is cleared, with -R the cache is rebuild explicitly
+	(it is normally checked on each query). The -S option prints some
 	cache statistics.
 	Search terms are used by grep(1) in case insensitive mode.
 	EOF
@@ -44,12 +45,13 @@ grep_chain () {
   fi
 }
 
-while getopts chrsvx FLAG; do
+while getopts ChRsSvx FLAG; do
   case $FLAG in
-    c) echo Clearing cache... >&2; make "${make_options[@]}" clear-cache; exit;;
+    C) echo Clearing cache... >&2; make "${make_options[@]}" clear-cache; exit;;
     h) usage; echo; help; exit;;
-    r) echo Rebuilding cache... >&2; make "${make_options[@]}" rebuild; exit;;
-    s) echo Statistics:; make "${make_options[@]}" cache-statistics; exit;;
+    R) echo Rebuilding cache... >&2; make "${make_options[@]}" rebuild; exit;;
+    S) echo Statistics:; make "${make_options[@]}" cache-statistics; exit;;
+    s) split=true;;
     v) echo "$prog $version"; echo "Using $(grep --version|head -n 1)"; exit;;
     x) debug=true; set -x;;
     *) usage >&2; exit 2;;
@@ -71,4 +73,9 @@ make \
   --no-builtin-rules \
   --no-builtin-variables \
   "${make_options[@]}"
-grep_chain "$@" < ~/.cache/abq/abq
+if "$split"; then
+  read -ra query <<<"$*"
+else
+  query=("$@")
+fi
+grep_chain "${query[@]}" < ~/.cache/abq/abq
